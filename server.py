@@ -30,12 +30,37 @@ users = [
 ]
 matrix = [[1,2,3],[4,5,6],[7,8,9]]
 
+# Only LA OR SF rows
+df = pd.DataFrame({
+    "city": ["LA","NY","SF","LA","NY","SF"],
+    "temp": [70, 55, 60, 75, 58, 62],
+    "humidity": [30, 65, 55, 35, 70, 58],
+    "date": pd.date_range("2021-01-01", periods=6)
+})
 
 # data frame drills
 # filter the frames for rows with temps above 60 degrees
 # average temperature per city
 # add a new column with the temperatures adjust for farenheit 
 # sort the dataframe by humidity in ascending order
+
+class PythonDFPracticeDrills():
+    def __init__(self):
+        self.name = "Python Dataframe Practice Drills"
+    
+    def rowsAbout60Deg(self, theDataFrame):
+        return theDataFrame[theDataFrame['temp']>60]
+
+    def avgTempPerCity(self, theDataFrame):
+        meanByCityDF = theDataFrame.groupby('city').mean()
+        cityToAvgTemp = ''
+        for city, temp in meanByCityDF['temp'].items():
+            cityToAvgTemp += f"{city} Average Temp is {temp}. \n"
+        return cityToAvgTemp
+    
+    def sortByHumidity(self, theDataFrame, ascend=True):
+        theDataFrame.sort_values(by='humidity', ascending=ascend, inplace=True)
+        print(theDataFrame)
 
 # loc
 # Get the row for index 3 using loc
@@ -44,19 +69,53 @@ matrix = [[1,2,3],[4,5,6],[7,8,9]]
 # Get LA rows, but only temp + humidity columns
 # Select rows by label range
 
+    def getRowByLoc(self, theDataFrame, locNum: number):
+        print(theDataFrame.loc[locNum])
+
+    def getRowByLocAndCol(self, theDataFrame, locNum: number, column:string):
+        print(theDataFrame.loc[locNum, column])
+
+    def getRowByCity(self, theDataFrame, city_string:string):
+        print(theDataFrame[theDataFrame['city'] == city_string])
+
+    def getRowByCityAndColumns(self, theDataFrame, city_string:string, column1: string, column2: string):
+        cityFrameDF = theDataFrame[theDataFrame['city'] == city_string]
+        print(cityFrameDF[['temp','humidity']])
+
+# pdpd = PythonDFPracticeDrills()
+# print(pdpd.rowsAbout60Deg(df))
+# df['tempInFarenheit'] = (df['temp'] * 9/5) - 32
+# print(df)
+# print(pdpd.sortByHumidity(df))
+# print(pdpd.getRowByLoc(df, 3))
+# print(pdpd.getRowByLocAndCol(df, 3, 'temp'))
+# print(pdpd.getRowByCity(df, 'LA'))
+# print(pdpd.getRowByCityAndColumns(df, 'LA', 'temp', 'humidity'))
+# print(df.loc[0:5])
+
 # iloc
 # Get the first row
 # Get the last 2 rows
 # Get the first 3 rows of temp + humidity (positions 1 and 2)
 # Get the humidity of the 5th row (index position 4)
 # Swap: retrieve the same value using loc instead
+print(df)
+print(df.iloc[0])
+print(df.iloc[4:])
+print(df.iloc[0:3, [1,2]])
+print(df.iloc[4, 2])
+print(df.loc[4, 'humidity'])
 
 # idxmax & idxmin
 # Find the index of the hottest temperature
+print(df['temp'].idxmax())
 # Using that index, return the full row
 # Coldest temperature row
+print(df['temp'].idxmin())
 # City with highest humidity
+print(df.loc[df['humidity'].idxmax()]['city'])
 # Entire row with highest humidity
+print(df.loc[df['humidity'].idxmax()])
 
 # BOOLEAN INDEXING DRILLS (critical for filtering)
 # All temps above 60
@@ -73,14 +132,6 @@ matrix = [[1,2,3],[4,5,6],[7,8,9]]
 # Retrieve all LA rows
 # Retrieve LA on a specific date (label tuple)
 # Slice by partial index
-
-# Only LA OR SF rows
-df = pd.DataFrame({
-    "city": ["LA","NY","SF","LA","NY","SF"],
-    "temp": [70, 55, 60, 75, 58, 62],
-    "humidity": [30, 65, 55, 35, 70, 58],
-    "date": pd.date_range("2021-01-01", periods=6)
-})
 
 
 # Practice Drills:
